@@ -1,0 +1,21 @@
+D:\[COURSES]\Algorithms\[ALG'24.term2]\Staff\10 Project\RELEASE\[1] Image Encryption and Compression\Startup Code\[TEMPLATE] ImageEncryptCompress\ImageEncryptCompress\bin\Debug\ImageTemplate.exe.config
+D:\[COURSES]\Algorithms\[ALG'24.term2]\Staff\10 Project\RELEASE\[1] Image Encryption and Compression\Startup Code\[TEMPLATE] ImageEncryptCompress\ImageEncryptCompress\bin\Debug\ImageTemplate.exe
+D:\[COURSES]\Algorithms\[ALG'24.term2]\Staff\10 Project\RELEASE\[1] Image Encryption and Compression\Startup Code\[TEMPLATE] ImageEncryptCompress\ImageEncryptCompress\bin\Debug\ImageTemplate.pdb
+D:\[COURSES]\Algorithms\[ALG'24.term2]\Staff\10 Project\RELEASE\[1] Image Encryption and Compression\Startup Code\[TEMPLATE] ImageEncryptCompress\ImageEncryptCompress\obj\Debug\ImageSegmentation.csproj.AssemblyReference.cache
+D:\[COURSES]\Algorithms\[ALG'24.term2]\Staff\10 Project\RELEASE\[1] Image Encryption and Compression\Startup Code\[TEMPLATE] ImageEncryptCompress\ImageEncryptCompress\obj\Debug\ImageSegmentation.csproj.SuggestedBindingRedirects.cache
+D:\[COURSES]\Algorithms\[ALG'24.term2]\Staff\10 Project\RELEASE\[1] Image Encryption and Compression\Startup Code\[TEMPLATE] ImageEncryptCompress\ImageEncryptCompress\obj\Debug\ImageTemplate.MainForm.resources
+D:\[COURSES]\Algorithms\[ALG'24.term2]\Staff\10 Project\RELEASE\[1] Image Encryption and Compression\Startup Code\[TEMPLATE] ImageEncryptCompress\ImageEncryptCompress\obj\Debug\ImageTemplate.Properties.Resources.resources
+D:\[COURSES]\Algorithms\[ALG'24.term2]\Staff\10 Project\RELEASE\[1] Image Encryption and Compression\Startup Code\[TEMPLATE] ImageEncryptCompress\ImageEncryptCompress\obj\Debug\ImageSegmentation.csproj.GenerateResource.cache
+D:\[COURSES]\Algorithms\[ALG'24.term2]\Staff\10 Project\RELEASE\[1] Image Encryption and Compression\Startup Code\[TEMPLATE] ImageEncryptCompress\ImageEncryptCompress\obj\Debug\ImageSegmentation.csproj.CoreCompileInputs.cache
+D:\[COURSES]\Algorithms\[ALG'24.term2]\Staff\10 Project\RELEASE\[1] Image Encryption and Compression\Startup Code\[TEMPLATE] ImageEncryptCompress\ImageEncryptCompress\obj\Debug\ImageTemplate.exe
+D:\[COURSES]\Algorithms\[ALG'24.term2]\Staff\10 Project\RELEASE\[1] Image Encryption and Compression\Startup Code\[TEMPLATE] ImageEncryptCompress\ImageEncryptCompress\obj\Debug\ImageTemplate.pdb
+C:\Users\aseel\Desktop\uni\third year\2\Algorithm\[3] IMAGE SEGMENTATION\STARTUP CODE\[TEMPLATE] ImageSegmentation\ImageSegmentation\bin\Debug\ImageTemplate.exe.config
+C:\Users\aseel\Desktop\uni\third year\2\Algorithm\[3] IMAGE SEGMENTATION\STARTUP CODE\[TEMPLATE] ImageSegmentation\ImageSegmentation\bin\Debug\ImageTemplate.exe
+C:\Users\aseel\Desktop\uni\third year\2\Algorithm\[3] IMAGE SEGMENTATION\STARTUP CODE\[TEMPLATE] ImageSegmentation\ImageSegmentation\bin\Debug\ImageTemplate.pdb
+C:\Users\aseel\Desktop\uni\third year\2\Algorithm\[3] IMAGE SEGMENTATION\STARTUP CODE\[TEMPLATE] ImageSegmentation\ImageSegmentation\obj\Debug\ImageSegmentation.csproj.AssemblyReference.cache
+C:\Users\aseel\Desktop\uni\third year\2\Algorithm\[3] IMAGE SEGMENTATION\STARTUP CODE\[TEMPLATE] ImageSegmentation\ImageSegmentation\obj\Debug\ImageTemplate.MainForm.resources
+C:\Users\aseel\Desktop\uni\third year\2\Algorithm\[3] IMAGE SEGMENTATION\STARTUP CODE\[TEMPLATE] ImageSegmentation\ImageSegmentation\obj\Debug\ImageTemplate.Properties.Resources.resources
+C:\Users\aseel\Desktop\uni\third year\2\Algorithm\[3] IMAGE SEGMENTATION\STARTUP CODE\[TEMPLATE] ImageSegmentation\ImageSegmentation\obj\Debug\ImageSegmentation.csproj.GenerateResource.cache
+C:\Users\aseel\Desktop\uni\third year\2\Algorithm\[3] IMAGE SEGMENTATION\STARTUP CODE\[TEMPLATE] ImageSegmentation\ImageSegmentation\obj\Debug\ImageSegmentation.csproj.CoreCompileInputs.cache
+C:\Users\aseel\Desktop\uni\third year\2\Algorithm\[3] IMAGE SEGMENTATION\STARTUP CODE\[TEMPLATE] ImageSegmentation\ImageSegmentation\obj\Debug\ImageTemplate.exe
+C:\Users\aseel\Desktop\uni\third year\2\Algorithm\[3] IMAGE SEGMENTATION\STARTUP CODE\[TEMPLATE] ImageSegmentation\ImageSegmentation\obj\Debug\ImageTemplate.pdb
