@@ -1,0 +1,61 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\aseel\\Desktop\\uni\\third year\\2\\Algorithm\\[3] IMAGE SEGMENTATION\\STARTUP CODE\\[TEMPLATE] ImageSegmentation\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{7CA8077F-C27A-400D-B6C9-7737665499AC}|ImageSegmentation\\ImageSegmentation.csproj|c:\\users\\aseel\\desktop\\uni\\third year\\2\\algorithm\\[3] image segmentation\\startup code\\[template] imagesegmentation\\imagesegmentation\\imageoperations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7CA8077F-C27A-400D-B6C9-7737665499AC}|ImageSegmentation\\ImageSegmentation.csproj|solutionrelative:imagesegmentation\\imageoperations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CA8077F-C27A-400D-B6C9-7737665499AC}|ImageSegmentation\\ImageSegmentation.csproj|C:\\Users\\aseel\\Desktop\\uni\\third year\\2\\Algorithm\\[3] IMAGE SEGMENTATION\\STARTUP CODE\\[TEMPLATE] ImageSegmentation\\imagesegmentation\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{7CA8077F-C27A-400D-B6C9-7737665499AC}|ImageSegmentation\\ImageSegmentation.csproj|solutionrelative:imagesegmentation\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\aseel\\Desktop\\uni\\third year\\2\\Algorithm\\[3] IMAGE SEGMENTATION\\STARTUP CODE\\[TEMPLATE] ImageSegmentation\\ImageSegmentation\\MainForm.cs",
+              "RelativeDocumentMoniker": "ImageSegmentation\\MainForm.cs",
+              "ToolTip": "C:\\Users\\aseel\\Desktop\\uni\\third year\\2\\Algorithm\\[3] IMAGE SEGMENTATION\\STARTUP CODE\\[TEMPLATE] ImageSegmentation\\ImageSegmentation\\MainForm.cs [Design]",
+              "RelativeToolTip": "ImageSegmentation\\MainForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-28T14:15:06.99Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ImageOperations.cs",
+              "DocumentMoniker": "C:\\Users\\aseel\\Desktop\\uni\\third year\\2\\Algorithm\\[3] IMAGE SEGMENTATION\\STARTUP CODE\\[TEMPLATE] ImageSegmentation\\ImageSegmentation\\ImageOperations.cs",
+              "RelativeDocumentMoniker": "ImageSegmentation\\ImageOperations.cs",
+              "ToolTip": "C:\\Users\\aseel\\Desktop\\uni\\third year\\2\\Algorithm\\[3] IMAGE SEGMENTATION\\STARTUP CODE\\[TEMPLATE] ImageSegmentation\\ImageSegmentation\\ImageOperations.cs",
+              "RelativeToolTip": "ImageSegmentation\\ImageOperations.cs",
+              "ViewState": "AgIAAO8AAAAAAAAAAAAYwPgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-28T14:13:36.85Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
