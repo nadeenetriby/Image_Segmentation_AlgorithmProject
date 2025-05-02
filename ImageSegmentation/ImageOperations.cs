@@ -4,6 +4,7 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
+using System.Linq;
 ///Algorithms Project
 ///Intelligent Scissors
 ///
@@ -21,8 +22,8 @@ namespace ImageTemplate
     {
         public double red, green, blue;
     }
-    
-  
+
+
     /// <summary>
     /// Library of static functions that deal with images
     /// </summary>
@@ -92,7 +93,7 @@ namespace ImageTemplate
 
             return Buffer;
         }
-        
+
         /// <summary>
         /// Get the height of the image 
         /// </summary>
@@ -152,13 +153,13 @@ namespace ImageTemplate
         }
 
 
-       /// <summary>
-       /// Apply Gaussian smoothing filter to enhance the edge detection 
-       /// </summary>
-       /// <param name="ImageMatrix">Colored image matrix</param>
-       /// <param name="filterSize">Gaussian mask size</param>
-       /// <param name="sigma">Gaussian sigma</param>
-       /// <returns>smoothed color image</returns>
+        /// <summary>
+        /// Apply Gaussian smoothing filter to enhance the edge detection 
+        /// </summary>
+        /// <param name="ImageMatrix">Colored image matrix</param>
+        /// <param name="filterSize">Gaussian mask size</param>
+        /// <param name="sigma">Gaussian sigma</param>
+        /// <returns>smoothed color image</returns>
         public static RGBPixel[,] GaussianFilter1D(RGBPixel[,] ImageMatrix, int filterSize, double sigma)
         {
             int Height = GetHeight(ImageMatrix);
@@ -167,7 +168,7 @@ namespace ImageTemplate
             RGBPixelD[,] VerFiltered = new RGBPixelD[Height, Width];
             RGBPixel[,] Filtered = new RGBPixel[Height, Width];
 
-           
+
             // Create Filter in Spatial Domain:
             //=================================
             //make the filter ODD size
@@ -305,4 +306,32 @@ namespace ImageTemplate
             return Math.Abs(intensity1 - intensity2);
         }
     }
+
+    public class Graph5D
+    {
+
+        public static Dictionary<(int, int), List<(int, int, double)>> Build5DGraph(RGBPixel[,] ImageMatrix,int k)
+        {
+            int Height = ImageMatrix.GetLength(0);
+            int Width = ImageMatrix.GetLength(1);
+
+            RGBPixel[,] after_smoothing = ImageOperations.GaussianFilter1D(ImageMatrix, 5, 0.8);
+            Dictionary<(int, int), List<(int, int, double)>> graph = new Dictionary<(int, int), List<(int, int, double)>>();
+                //x,y,r,g,b
+            List<(int,int,byte,byte,byte)> pixels = new List<(int, int, byte, byte, byte)>();
+            for (int i = 0; i < Height; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    pixels.Add((i, j, after_smoothing[i, j].red, after_smoothing[i, j].green, after_smoothing[i, j].blue));
+                }
+            }
+          
+           
+            return graph;
+        }
+        
+    }
+
+
 }
