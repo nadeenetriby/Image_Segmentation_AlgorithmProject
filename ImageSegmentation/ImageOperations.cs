@@ -1,10 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 ///Algorithms Project
 ///Intelligent Scissors
 ///
@@ -246,92 +247,360 @@ namespace ImageTemplate
         }
     }
 
+  
     public class Graph2D
     {
-        public static Dictionary<(int, int), List<(int, int, double)>> Build2DGraph(RGBPixel[,] ImageMatrix)
+        public static (
+            List<(int, int, double)>[][] RedGraph,
+            List<(int, int, double)>[][] GreenGraph,
+            List<(int, int, double)>[][] BlueGraph)
+            Build2DGraph(RGBPixel[,] ImageMatrix)
+        {
+            int height = ImageMatrix.GetLength(0);
+            int width = ImageMatrix.GetLength(1);
+
+            //Neighbors
+            var redGraph = new List<(int, int, double)>[height][];
+            var greenGraph = new List<(int, int, double)>[height][];
+            var blueGraph = new List<(int, int, double)>[height][];
+
+            //Initialize heights --> weights --> neighbors
+            for (int i = 0; i < height; i++)
+            {
+                redGraph[i] = new List<(int, int, double)>[width];
+                greenGraph[i] = new List<(int, int, double)>[width];
+                blueGraph[i] = new List<(int, int, double)>[width];
+
+                for (int j = 0; j < width; j++)
+                {
+                    redGraph[i][j] = new List<(int, int, double)>(4);
+                    greenGraph[i][j] = new List<(int, int, double)>(4);
+                    blueGraph[i][j] = new List<(int, int, double)>(4);
+                }
+            }
+
+            Parallel.For(0, height, i =>
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    RGBPixel p1 = ImageMatrix[i, j];
+
+                    void add(int x, int y) =>
+                        AddEdge(p1, ImageMatrix[x, y], x, y, redGraph[i][j], greenGraph[i][j], blueGraph[i][j]);
+
+                    // Right
+                    if (j + 1 < width) add(i, j + 1);
+                    // Down
+                    if (i + 1 < height) add(i + 1, j);
+                    // down-right
+                    if (i + 1 < height && j + 1 < width)
+                        add(i + 1, j + 1);
+                    // down-left
+                    if (i + 1 < height && j - 1 >= 0)
+                        add(i + 1, j - 1);
+                }
+            });
+            return (redGraph, greenGraph, blueGraph);
+        }
+        private static void AddEdge(RGBPixel p1, RGBPixel p2, int x2, int y2,
+            List<(int, int, double)> redNeighbors,
+            List<(int, int, double)> greenNeighbors,
+            List<(int, int, double)> blueNeighbors)
+        {
+            redNeighbors.Add((x2, y2, Math.Abs(p1.red - p2.red)));
+            greenNeighbors.Add((x2, y2, Math.Abs(p1.green - p2.green)));
+            blueNeighbors.Add((x2, y2, Math.Abs(p1.blue - p2.blue)));
+        }
+    }
+
+   
+    public class Segmentation
+    {
+        static int[] parent;
+        static int[] rank;
+        static int[] componentSize;
+        static double[] internaldifference;
+
+
+
+        public static int[] Kruskal(
+      List<(int, int, double)>[][] vertices, RGBPixel[,] ImageMatrix, double k)
         {
             int height = ImageOperations.GetHeight(ImageMatrix);
             int width = ImageOperations.GetWidth(ImageMatrix);
+            // int size = height * width;
 
-            RGBPixel[,] after_smoothing = ImageOperations.GaussianFilter1D(ImageMatrix, 5, 0.8);
-            Dictionary<(int, int), List<(int, int, double)>> graph = new Dictionary<(int, int), List<(int, int, double)>>();
+            parent = new int[height * width];
+            rank = new int[height * width];
+            componentSize = new int[height * width];
+            internaldifference = new double[height * width];
+            for (int i = 0; i < height * width; i++)
+            {
+                make_set(i, i);
+                componentSize[i] = 1;
+                internaldifference[i] = 0;
+            }
+
+            int maxedgesize = height * width * 2;
+            var edges = new List<(int, int, double)>(maxedgesize);
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    int v1 = i * width + j;
+                    foreach ((int a, int b, double c) in vertices[i][j])
+                    {
+                        int v2 = a * width + b;
+
+                        //var edge = (Math.Min(v1, v2), Math.Max(v1, v2));
+                        if (v1 < v2)
+                        {
+                            edges.Add((v1, v2, c));
+                        }
+                    }
+                }
+
+            }
+
+
+            edges.Sort((a, b) => a.Item3.CompareTo(b.Item3));
+
+
+            foreach (var (v1, v2, weight) in edges)
+            {
+                var root1 = find_set(v1);
+                var root2 = find_set(v2);
+
+                if (root1 != root2)
+                {
+                    double t1 = k / componentSize[root1];
+                    double t2 = k / componentSize[root2];
+
+                    double int1 = internaldifference[root1];
+                    double int2 = internaldifference[root2];
+
+                    if (weight <= Math.Min(int1 + t1, int2 + t2))
+                    {
+                        union(root1, root2);
+                        var newRoot = find_set(root2);
+                        componentSize[newRoot] = componentSize[root1] + componentSize[root2];
+                        internaldifference[newRoot] = Math.Max(Math.Max(int1, int2), weight);
+                    }
+                }
+            }
+
+
+
+            var rootToId = new int[height * width];
+            for (int i = 0; i < rootToId.Length; i++)
+            {
+                rootToId[i] = -1;
+            }
+
+            int currentId = 0;
+            var pixelToComponent = new int[height * width];
+
+            for (int idx = 0; idx < height * width; idx++)
+            {
+                int root = find_set(idx);
+                if (rootToId[root] == -1)
+                {
+                    rootToId[root] = currentId++;
+                }
+                pixelToComponent[idx] = rootToId[root];
+            }
+
+
+            return pixelToComponent;
+        }
+
+
+        private static int find_set(int x)
+        {
+            while (parent[x] != x)
+            {
+                parent[x] = parent[parent[x]];
+                x = parent[x];
+            }
+            return x;
+        }
+        public static void make_set(int x, int index)
+        {
+            parent[index] = x;
+            rank[index] = 0;
+        }
+        public static void union(int u, int v)
+        {
+            if (rank[u] > rank[v])
+                parent[v] = u;
+            else
+            {
+                parent[u] = v;
+                if (rank[u] == rank[v])
+                    rank[v]++;
+            }
+        }
+
+
+        public static int[] Split(int[] map, int height, int width)
+        {
+            int[] result = new int[height * width];
+            bool[] Rchecked = new bool[height * width];
+
+            // neighbors
+            int[] Rrows = { -1, -1, -1, 0, 0, 1, 1, 1 };
+            int[] Rcols = { -1, 0, 1, -1, 1, -1, 0, 1 };
+
+            int newId = 0;
+
+            Queue<int> q = new Queue<int>();
 
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
                 {
-                    var neighbors = new List<(int, int, double)>();
+                    int idx = i * width + j;
+                    if (Rchecked[idx]) continue;
 
-                    // Right 
-                    if (j + 1 < width)
-                        neighbors.Add((i, j + 1, W(after_smoothing[i, j], after_smoothing[i, j + 1])));
+                    int label = map[idx];
+                    q.Enqueue(idx);
+                    Rchecked[idx] = true;
 
-                    // Left
-                    if (j - 1 >= 0)
-                        neighbors.Add((i, j - 1, W(after_smoothing[i, j], after_smoothing[i, j - 1])));
+                    while (q.Count > 0)
+                    {
+                        int cur = q.Dequeue();
+                        int x = cur / width;
+                        int y = cur % width;
+                        result[cur] = newId;
 
-                    // Down
-                    if (i + 1 < height)
-                        neighbors.Add((i + 1, j, W(after_smoothing[i, j], after_smoothing[i + 1, j])));
+                        for (int d = 0; d < 8; d++)
+                        {
+                            int Rx = x + Rrows[d];
+                            int Ry = y + Rcols[d];
+                            if (Rx < 0 || Ry < 0 || Rx >= height || Ry >= width) continue;
 
-                    // Up
-                    if (i - 1 >= 0)
-                        neighbors.Add((i - 1, j, W(after_smoothing[i, j], after_smoothing[i - 1, j])));
+                            int nidx = Rx * width + Ry;
+                            if (!Rchecked[nidx] && map[nidx] == label)
+                            {
+                                q.Enqueue(nidx);
+                                Rchecked[nidx] = true;
+                            }
+                        }
+                    }
 
-                    // Down-Right
-                    if (i + 1 < height && j + 1 < width)
-                        neighbors.Add((i + 1, j + 1, W(after_smoothing[i, j], after_smoothing[i + 1, j + 1])));
-
-                    // Down-Left
-                    if (i + 1 < height && j - 1 >= 0)
-                        neighbors.Add((i + 1, j - 1, W(after_smoothing[i, j], after_smoothing[i + 1, j - 1])));
-
-                    // Up-left neighbor
-                    if (i - 1 >= 0 && j - 1 >= 0)
-                        neighbors.Add((i - 1, j - 1, W(after_smoothing[i, j], after_smoothing[i - 1, j - 1])));
-
-                    // Up-right neighbor
-                    if (i - 1 >= 0 && j + 1 < width)
-                        neighbors.Add((i - 1, j + 1, W(after_smoothing[i, j], after_smoothing[i - 1, j + 1])));
-
-                    graph[(i, j)] = neighbors;
+                    newId++;
                 }
             }
-            return graph;
+
+            return result;
         }
-        public static double W(RGBPixel p1, RGBPixel p2)
+
+
+
+
+        public static void WriteSegmentInfoToFile(int[] segments, string path)
         {
-            double intensity1 = 0.299 * p1.red + 0.587 * p1.green + 0.114 * p1.blue;
-            double intensity2 = 0.299 * p2.red + 0.587 * p2.green + 0.114 * p2.blue;
-            return Math.Abs(intensity1 - intensity2);
+            int maxLabel = segments.Max();
+            int[] counts = new int[maxLabel + 1];
+
+            foreach (var seg in segments)
+            {
+                counts[seg]++;
+            }
+
+            var sortedCounts = counts.Where(c => c > 0).OrderByDescending(x => x).ToList();
+
+            var w = new StreamWriter(path);
+            w.WriteLine(sortedCounts.Count);
+            foreach (var c in sortedCounts)
+                w.WriteLine(c);
+        }
+
+        public static (int[] intersected, int numSegments) IntersectSeg(int[] rLabels, int[] gLabels, int[] bLabels, int width, int height)
+        {
+            int size = width * height;
+            int[] intersects = new int[size];
+            var segments = new Dictionary<(int, int, int), int>();
+            int segNum = 0;
+
+
+            for (int i = 0; i < size; i++)
+            {
+                var key = (rLabels[i], gLabels[i], bLabels[i]);
+
+                if (!segments.ContainsKey(key))
+                {
+                    segments[key] = segNum++;
+                }
+
+                intersects[i] = segments[key];
+            }
+
+            return (intersects, segNum);
         }
     }
-
-    public class Graph5D
+    public static class Visualize
     {
 
-        public static Dictionary<(int, int), List<(int, int, double)>> Build5DGraph(RGBPixel[,] ImageMatrix,int k)
+        public static RGBPixel[,] Coloring(RGBPixel[,] image, int[] segments)
         {
-            int Height = ImageMatrix.GetLength(0);
-            int Width = ImageMatrix.GetLength(1);
-
-            RGBPixel[,] after_smoothing = ImageOperations.GaussianFilter1D(ImageMatrix, 5, 0.8);
-            Dictionary<(int, int), List<(int, int, double)>> graph = new Dictionary<(int, int), List<(int, int, double)>>();
-                //x,y,r,g,b
-            List<(int,int,byte,byte,byte)> pixels = new List<(int, int, byte, byte, byte)>();
-            for (int i = 0; i < Height; i++)
+            int height = image.GetLength(0);
+            int width = image.GetLength(1);
+            var result = new RGBPixel[height, width];
+            var segmentColors = new RGBPixel[segments.Max() + 1];
+            Random rand = new Random();
+            for (int i = 0; i < segmentColors.Length; i++)
             {
-                for (int j = 0; j < Width; j++)
+                segmentColors[i] = new RGBPixel
                 {
-                    pixels.Add((i, j, after_smoothing[i, j].red, after_smoothing[i, j].green, after_smoothing[i, j].blue));
+                    red = (byte)rand.Next(256),
+                    green = (byte)rand.Next(256),
+                    blue = (byte)rand.Next(256)
+                };
+            }
+
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    int Rx = i * width + j;
+                    int segId = segments[Rx];
+                    result[i, j] = segmentColors[segId];
                 }
             }
-          
-           
-            return graph;
-        }
-        
-    }
 
+            return result;
+        }
+
+        public static RGBPixel[,] ColoringMerged(
+        RGBPixel[,] originalImage,int[] segments, int Root, int width,int height)
+        {
+            var output = new RGBPixel[height, width];
+
+            
+            RGBPixel white = new RGBPixel { red = 255, green = 255, blue = 255 };
+            for (int i = 0; i < height; i++)
+                for (int j = 0; j < width; j++)
+                    output[i, j] = white;
+
+            if (Root < 0 || Root >= segments.Length)
+                return output;
+
+            int Id = segments[Root];
+
+            for (int Rx = 0; Rx < segments.Length; Rx++)
+            {
+                if (segments[Rx] == Id)
+                {
+                    int x = Rx / width;
+                    int y = Rx % width;
+                    output[x, y] = originalImage[x, y];
+                }
+            }
+
+            return output;
+        }
+
+    }
 
 }
