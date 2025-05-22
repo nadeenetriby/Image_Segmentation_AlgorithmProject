@@ -13,10 +13,17 @@ Key principles:
 
 ## Project Features
 
-- Graph representation of images using 8-connected pixel neighborhoods  
-- Edge weight based on pixel intensity or RGB channel difference  
-- Efficient image segmentation algorithm (Union-Find with threshold predicate)  
-- Segmentation visualization with region colors  
-- Outputs number and size of regions to text file  
-- Handles grayscale and color images  
-- Gaussian filter preprocessing for noise reduction
+-Graph representation of images using 8-connected pixel neighborhoods.
+-Edge weights based on pixel intensity or RGB channel differences.
+-Efficient image segmentation using Kruskal’s algorithm combined with Breadth-First Search (BFS) for connected components, as described by Felzenszwalb and Huttenlocher.
+-Segmentation visualization with distinct region colors.
+-Outputs the number and size of regions to a text file.
+-Supports grayscale and color images.
+-Optional Gaussian filter for noise reduction.
+
+
+##**Bonus Features**
+
+— Interactive “Click-to-Merge” UI
+
+Enables manual merging of over-segmented regions by clicking on them through a graphical interface.
